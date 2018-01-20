@@ -9,6 +9,8 @@ using Valve.VR;
 
 public class SteamVR_TrackedObject : MonoBehaviour
 {
+	public bool useFixedUpdate;
+	SteamVR_Utils.RigidTransform lastPose;
 	public enum EIndex
 	{
 		None = -1,
@@ -35,7 +37,7 @@ public class SteamVR_TrackedObject : MonoBehaviour
 	[Tooltip("If not set, relative to parent")]
 	public Transform origin;
 
-    public bool isValid { get; private set; }
+	public bool isValid { get; private set; }
 
 	private void OnNewPoses(TrackedDevicePose_t[] poses)
 	{
@@ -44,7 +46,7 @@ public class SteamVR_TrackedObject : MonoBehaviour
 
 		var i = (int)index;
 
-        isValid = false;
+		isValid = false;
 		if (poses.Length <= i)
 			return;
 
@@ -54,19 +56,22 @@ public class SteamVR_TrackedObject : MonoBehaviour
 		if (!poses[i].bPoseIsValid)
 			return;
 
-        isValid = true;
+		isValid = true;
 
 		var pose = new SteamVR_Utils.RigidTransform(poses[i].mDeviceToAbsoluteTracking);
-
-		if (origin != null)
+		lastPose = pose;
+		if (!useFixedUpdate)
 		{
-			transform.position = origin.transform.TransformPoint(pose.pos);
-			transform.rotation = origin.rotation * pose.rot;
-		}
-		else
-		{
-			transform.localPosition = pose.pos;
-			transform.localRotation = pose.rot;
+			if (origin != null)
+			{
+				transform.position = origin.transform.TransformPoint(pose.pos);
+				transform.rotation = origin.rotation * pose.rot;
+			}
+			else
+			{
+				transform.localPosition = pose.pos;
+				transform.localRotation = pose.rot;
+			}
 		}
 	}
 
@@ -99,6 +104,22 @@ public class SteamVR_TrackedObject : MonoBehaviour
 	{
 		if (System.Enum.IsDefined(typeof(EIndex), index))
 			this.index = (EIndex)index;
+	}
+	private void FixedUpdate()
+	{
+		if (useFixedUpdate)
+		{
+			if (origin != null)
+			{
+				transform.position = origin.transform.TransformPoint(lastPose.pos);
+				transform.rotation = origin.rotation * lastPose.rot;
+			}
+			else
+			{
+				transform.localPosition = lastPose.pos;
+				transform.localRotation = lastPose.rot;
+			}
+		}
 	}
 }
 
