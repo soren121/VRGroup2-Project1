@@ -19,6 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4226546666749824}
+  - component: {fileID: 54450733519472718}
   m_Layer: 0
   m_Name: AngryBird
   m_TagString: Untagged
@@ -36,7 +37,6 @@ GameObject:
   - component: {fileID: 4031938557855852}
   - component: {fileID: 33521437837548268}
   - component: {fileID: 23990895471570942}
-  - component: {fileID: 54853851811841608}
   - component: {fileID: 135725291458033986}
   - component: {fileID: 114248991023399186}
   m_Layer: 0
@@ -114,12 +114,12 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1979136190286936}
   m_Mesh: {fileID: 4300000, guid: dca8cef4ee96af84eadf23d3b1d7b3f5, type: 3}
---- !u!54 &54853851811841608
+--- !u!54 &54450733519472718
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1979136190286936}
+  m_GameObject: {fileID: 1346236940638316}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0

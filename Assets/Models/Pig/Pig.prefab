@@ -19,6 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4441910509880400}
+  - component: {fileID: 54053006499390664}
   m_Layer: 0
   m_Name: Pig
   m_TagString: Untagged
@@ -36,7 +37,6 @@ GameObject:
   - component: {fileID: 4187769289751022}
   - component: {fileID: 33855424059114948}
   - component: {fileID: 23602478805147308}
-  - component: {fileID: 54975265937434698}
   - component: {fileID: 135896275793555974}
   m_Layer: 0
   m_Name: PigGraphics
@@ -113,12 +113,12 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1780421687887360}
   m_Mesh: {fileID: 4300000, guid: 2b5fc397e1c64864b9d6c90e4287493a, type: 3}
---- !u!54 &54975265937434698
+--- !u!54 &54053006499390664
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1780421687887360}
+  m_GameObject: {fileID: 1551920664069420}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
