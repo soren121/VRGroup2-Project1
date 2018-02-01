@@ -16,7 +16,6 @@ public class Slingshot : MonoBehaviour {
 	void Start () {
 		pullZone = GetComponentInChildren<PullZone>();
 		pullZone.OnObjectLoaded += LoadSlingshot;
-		pullZone.OnObjectLaunched += LaunchObject;
 		// the slingshot's anchor points for the band
 		leftAnchorPoint = transform.Find("LeftAnchorPoint");
 		rightAnchorPoint = transform.Find("RightAnchorPoint");
@@ -29,24 +28,42 @@ public class Slingshot : MonoBehaviour {
 
 	public void LoadSlingshot() {
 		StartCoroutine(DrawSlingshotBand());
+		StartCoroutine(CheckForLaunch());
 	}
 
 	public void LaunchObject() {
+		Debug.Log ("object launched");
 		Rigidbody obj = pullZone.loadedObject;
-		Vector3 pullbackStart = (leftAnchorPoint.position - rightAnchorPoint.position)/2;
+		Vector3 pullbackStart = (leftAnchorPoint.position + rightAnchorPoint.position)/2;
 		Vector3 pullbackEnd = obj.transform.position;
 		// calculate launch direction
-		Vector3 launchDirection = (pullbackStart - pullbackEnd).normalized;
+		Vector3 launchDirection = -(pullbackEnd - pullbackStart).normalized;
 		// calculate launch speed (spring force formula)
-		float launchSpeed = (pullbackStart - pullbackEnd).magnitude * Mathf.Sqrt(strength / obj.mass);
+		float launchSpeed = (pullbackEnd - pullbackStart).magnitude * Mathf.Sqrt(strength / obj.mass);
 		// calculate launch velocity
 		Vector3 launchVelocity = launchDirection * launchSpeed;
 		// make the loaded object non-kinematic so force can be added
 		obj.isKinematic = false;
-		obj.AddForce(launchVelocity);
+		obj.velocity = launchVelocity;
+		// unload object
+		pullZone.loadedObject = null;
+		Debug.DrawLine (pullbackStart, pullbackEnd);
+	}
+
+	IEnumerator CheckForLaunch() {
+		while (pullZone.loadedObject != null) {
+			// check if let go of loaded object inside pullzone
+			if((slingshotHand == "left" && player.rightHeldObject == null) || 
+				(slingshotHand == "right" && player.leftHeldObject == null)) {
+				LaunchObject ();
+			}
+			yield return null;
+		}
+		yield return null;
 	}
 
 	IEnumerator DrawSlingshotBand() {
+		Debug.Log ("slingshot band drawn");
 		GameObject leftBand = new GameObject();
 		GameObject rightBand = new GameObject();
 		// get anchor points of loaded object
@@ -70,8 +87,8 @@ public class Slingshot : MonoBehaviour {
 		leftLR.startColor = Color.black; leftLR.endColor = Color.red;
 		rightLR.startColor = Color.black; rightLR.endColor = Color.red;
 		// set the width of the bands
-		leftLR.startWidth = 0.2f; leftLR.endWidth = 0.4f;
-		rightLR.startWidth = 0.2f; rightLR.endWidth = 0.4f;
+		leftLR.startWidth = 0.01f; leftLR.endWidth = 0.02f;
+		rightLR.startWidth = 0.01f; rightLR.endWidth = 0.02f;
 		// continuously update bands based on new location of loaded object
 		while(pullZone.loadedObject != null) {
 			leftLR.SetPosition(0, leftAnchorPoint.position);
@@ -81,6 +98,7 @@ public class Slingshot : MonoBehaviour {
 			yield return null;
 		} // while
 		// destroy the bands since there is no more loaded object
+		Debug.Log("bands destroyed");
 		Destroy(leftBand);
 		Destroy(rightBand);
 		yield return null;

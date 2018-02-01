@@ -27,7 +27,7 @@ public class Player : MonoBehaviour {
 	}
 
 
-	void LateUpdate()
+	void FixedUpdate()
 	{
 		head.position = hmd.position;
 		head.rotation = hmd.rotation;
@@ -40,15 +40,17 @@ public class Player : MonoBehaviour {
 		if (leftIndex >= 0)
 		{
 			float leftTrigger = SteamVR_Controller.Input(leftIndex).GetAxis(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger).magnitude;
-			if (leftHand.intersected != null && leftTrigger > .2f)
+			if (leftHand.intersected != null && leftTrigger > 0f)
 			{
 				leftHeldObject = leftHand.intersected;
 				saveMaxLeft = leftHand.intersected.maxAngularVelocity;
 				leftHand.intersected.maxAngularVelocity = Mathf.Infinity;
 			}
-			if (leftHeldObject != null && leftTrigger <= .2f)
+			if (leftHeldObject != null && leftTrigger <= 0f)
 			{
 				//release it
+				leftHeldObject.isKinematic = false;
+
 				leftHeldObject.velocity = SteamVR_Controller.Input(leftIndex).velocity;
 				leftHeldObject.angularVelocity = SteamVR_Controller.Input(leftIndex).angularVelocity;
 				leftHeldObject.maxAngularVelocity = saveMaxLeft;
@@ -56,31 +58,38 @@ public class Player : MonoBehaviour {
 			}
 			if (leftHeldObject != null)
 			{
-				//force the object to follow my hand
-				leftHeldObject.velocity = (leftHand.transform.position - leftHeldObject.position) / Time.deltaTime;
-				float angle;
-				Vector3 axis;
-				Quaternion q = rightHand.transform.rotation * Quaternion.Inverse(leftHeldObject.rotation);
-				q.ToAngleAxis(out angle, out axis);
+				//force the object to follow my hand (isKinematic == true)
+				leftHeldObject.isKinematic = true;
 
-				leftHeldObject.angularVelocity = axis * angle * Mathf.Deg2Rad / Time.deltaTime;
+				leftHeldObject.position = leftHand.transform.position;
+				leftHeldObject.rotation = leftHand.transform.rotation;
+
+				//force the object to follow my hand (isKinematic == false)
+				//leftHeldObject.velocity = (leftHand.transform.position - leftHeldObject.position) / Time.deltaTime;
+				//float angle;
+				//Vector3 axis;
+				//Quaternion q = leftHand.transform.rotation * Quaternion.Inverse(leftHeldObject.rotation);
+				//q.ToAngleAxis(out angle, out axis);
+
+				//leftHeldObject.angularVelocity = axis * angle * Mathf.Deg2Rad / Time.deltaTime;
 			}
 		}
 		int rightIndex = (int)rightController.GetComponent<SteamVR_TrackedObject>().index;
 		if (rightIndex >= 0)
 		{
 			float rightTrigger = SteamVR_Controller.Input(rightIndex).GetAxis(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger).magnitude;
-			if (rightHand.intersected != null && rightTrigger > .2f)
+			if (rightHand.intersected != null && rightTrigger > 0f)
 			{
 				rightHeldObject = rightHand.intersected;
 				saveMaxRight = rightHand.intersected.maxAngularVelocity;
 				rightHand.intersected.maxAngularVelocity = Mathf.Infinity;
-
 			}
 
-			if (rightHeldObject != null && rightTrigger <= .2f)
+			if (rightHeldObject != null && rightTrigger <= 0f)
 			{
 				//release it
+				rightHeldObject.isKinematic = false;
+
 				rightHeldObject.velocity = SteamVR_Controller.Input(rightIndex).velocity;
 				rightHeldObject.angularVelocity = SteamVR_Controller.Input(rightIndex).angularVelocity;
 				rightHeldObject.maxAngularVelocity = saveMaxRight;
@@ -89,14 +98,20 @@ public class Player : MonoBehaviour {
 
 			if (rightHeldObject != null)
 			{
-				//force the object to follow my hand
-				rightHeldObject.velocity = (rightHand.transform.position - rightHeldObject.position) / Time.deltaTime;
-				float angle;
-				Vector3 axis;
-				Quaternion q = rightHand.transform.rotation * Quaternion.Inverse(rightHeldObject.rotation);
-				q.ToAngleAxis(out angle, out axis);
+				//force the object to follow my hand (isKinematic == true)
+				rightHeldObject.isKinematic = true;
 
-				rightHeldObject.angularVelocity = axis * angle * Mathf.Deg2Rad / Time.deltaTime;
+				rightHeldObject.position = rightHand.transform.position;
+				rightHeldObject.rotation = rightHand.transform.rotation;
+
+				//force the object to follow my hand (isKinematic == false)
+				//rightHeldObject.velocity = (rightHand.transform.position - rightHeldObject.position) / Time.deltaTime;
+				//float angle;
+				//Vector3 axis;
+				//Quaternion q = rightHand.transform.rotation * Quaternion.Inverse(rightHeldObject.rotation);
+				//q.ToAngleAxis(out angle, out axis);
+
+				//rightHeldObject.angularVelocity = axis * angle * Mathf.Deg2Rad / Time.deltaTime;
 			}
 		}
 

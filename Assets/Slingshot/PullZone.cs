@@ -6,8 +6,6 @@ using UnityEngine;
 public class PullZone : MonoBehaviour {
 
 	public event Action OnObjectLoaded;
-	public event Action OnObjectLaunched;
-	public event Action OnObjectUnloaded;
 	public Rigidbody loadedObject;
 
 	private Player player;
@@ -15,7 +13,7 @@ public class PullZone : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		player = GetComponentInParent<Player>();
+		player = GetComponentInParent<Slingshot>().player;
 		slingshotHand = GetComponentInParent<Slingshot>().slingshotHand;
 	}
 	
@@ -28,40 +26,34 @@ public class PullZone : MonoBehaviour {
 		if(slingshotHand == "left") {
 			// check if object being held in RIGHT hand is one being loaded
 			if(player.rightHeldObject != null && 
-				player.rightHeldObject.gameObject.GetInstanceID() == collider.gameObject.GetInstanceID()) {
+				player.rightHeldObject.gameObject.GetInstanceID() == collider.attachedRigidbody.gameObject.GetInstanceID()) {
 				// load object
 				loadedObject = player.rightHeldObject;
+				Debug.Log(loadedObject);
 				// let slingshot know its loaded
 				if(OnObjectLoaded != null) OnObjectLoaded();
 			} // if
 		} else if(slingshotHand == "right") {
 			// check if object being held in LEFT hand is one being loaded
 			if(player.leftHeldObject != null && 
-				player.leftHeldObject.gameObject.GetInstanceID() == collider.gameObject.GetInstanceID()) {
+				player.leftHeldObject.gameObject.GetInstanceID() == collider.attachedRigidbody.gameObject.GetInstanceID()) {
 				// load object
 				loadedObject = player.leftHeldObject;
+				Debug.Log(loadedObject);
 				// let slingshot know its loaded
 				if(OnObjectLoaded != null) OnObjectLoaded();
 			} // if
 		} // if
 	}
 
-	void OnTriggerStay(Collider collider) {
-		if(loadedObject != null) {
-			// check if let go of loaded object inside pullzone
-			if((slingshotHand == "left" && player.rightHeldObject == null) || 
-				(slingshotHand == "right" && player.leftHeldObject == null)) {
-				// let slingshot know to launch object
-				if(OnObjectLaunched != null) OnObjectLaunched();
-			}
-		} // if
-	}
-
 	void OnTriggerExit(Collider collider) {
-		// unload object
-		loadedObject = null;
-		// let slingshot know its unloaded
-		if(OnObjectUnloaded != null) OnObjectUnloaded();
+		// check if object leaving pullzone is one that was loaded
+		if(loadedObject != null && 
+			loadedObject.gameObject.GetInstanceID() == collider.attachedRigidbody.gameObject.GetInstanceID()) {
+			// unload object
+			loadedObject = null;
+			Debug.Log(loadedObject);
+		} // if
 	}
 
 }
