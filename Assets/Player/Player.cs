@@ -40,13 +40,13 @@ public class Player : MonoBehaviour {
 		if (leftIndex >= 0)
 		{
 			float leftTrigger = SteamVR_Controller.Input(leftIndex).GetAxis(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger).magnitude;
-			if (leftHand.intersected != null && leftTrigger > 0f)
+			if (leftHand.intersected != null && leftTrigger > 0.2f)
 			{
 				leftHeldObject = leftHand.intersected;
 				saveMaxLeft = leftHand.intersected.maxAngularVelocity;
 				leftHand.intersected.maxAngularVelocity = Mathf.Infinity;
 			}
-			if (leftHeldObject != null && leftTrigger <= 0f)
+			if (leftHeldObject != null && leftTrigger <= 0.2f)
 			{
 				//release it
 				leftHeldObject.isKinematic = false;
@@ -78,14 +78,14 @@ public class Player : MonoBehaviour {
 		if (rightIndex >= 0)
 		{
 			float rightTrigger = SteamVR_Controller.Input(rightIndex).GetAxis(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger).magnitude;
-			if (rightHand.intersected != null && rightTrigger > 0f)
+			if (rightHand.intersected != null && rightTrigger > 0.2f)
 			{
 				rightHeldObject = rightHand.intersected;
 				saveMaxRight = rightHand.intersected.maxAngularVelocity;
 				rightHand.intersected.maxAngularVelocity = Mathf.Infinity;
 			}
 
-			if (rightHeldObject != null && rightTrigger <= 0f)
+			if (rightHeldObject != null && rightTrigger <= 0.2f)
 			{
 				//release it
 				rightHeldObject.isKinematic = false;
