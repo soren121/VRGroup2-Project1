@@ -109,3 +109,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPlatform: {fileID: 0}
   thingToSpawn: {fileID: 0}
+  PoofSound: {fileID: 1717049948134134, guid: 378d764b508d4984299438ec470261d6, type: 2}

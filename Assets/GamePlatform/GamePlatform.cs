@@ -6,6 +6,7 @@ public class GamePlatform : MonoBehaviour {
 
 	public GameObject spawnPlatform;
 	public Rigidbody thingToSpawn;
+    public GameObject PoofSound;
 
 	private Transform spawnLocation;
 
@@ -28,10 +29,14 @@ public class GamePlatform : MonoBehaviour {
 	private IEnumerator handleCollision(Collision collision) {
 		Debug.Log("A "+collision.transform.name+" hit the floor.");
 		if(collision.rigidbody.transform.name == "Pig") {
-			yield return new WaitForSeconds(2);
-			GameObject.Destroy(collision.gameObject);
+            GameObject.Instantiate(PoofSound);
+            yield return new WaitForSeconds(2);
+            GameObject.Destroy(PoofSound);
+            GameObject.Destroy(collision.gameObject);
 		} else if(collision.rigidbody.transform.name == "AngryBird" || collision.rigidbody.transform.name == "AngryBird(Clone)") {
+            GameObject.Instantiate(PoofSound);
 			yield return new WaitForSeconds(1);
+            GameObject.Destroy(PoofSound);
 			GameObject.Instantiate<Rigidbody>(thingToSpawn, spawnLocation.position, spawnLocation.rotation);
 		}
 		yield return null;

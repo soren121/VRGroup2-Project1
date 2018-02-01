@@ -12,8 +12,10 @@ public class Slingshot : MonoBehaviour {
 	private Transform rightAnchorPoint;
 	private PullZone pullZone;
 
-	// Use this for initialization
-	void Start () {
+    public GameObject ShotSound;
+
+    // Use this for initialization
+    void Start () {
 		pullZone = GetComponentInChildren<PullZone>();
 		pullZone.OnObjectLoaded += LoadSlingshot;
 		// the slingshot's anchor points for the band
@@ -97,8 +99,10 @@ public class Slingshot : MonoBehaviour {
 			rightLR.SetPosition(1, loadedObjectRightAnchorPoint.position);
 			yield return null;
 		} // while
-		// destroy the bands since there is no more loaded object
-		Debug.Log("bands destroyed");
+          // destroy the bands since there is no more loaded object
+        GameObject.Instantiate(ShotSound);
+        GameObject.Destroy(ShotSound);
+        Debug.Log("bands destroyed");
 		Destroy(leftBand);
 		Destroy(rightBand);
 		yield return null;

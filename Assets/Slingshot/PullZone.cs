@@ -7,6 +7,7 @@ public class PullZone : MonoBehaviour {
 
 	public event Action OnObjectLoaded;
 	public Rigidbody loadedObject;
+ 
 
 	private Player player;
 	private string slingshotHand;
@@ -50,9 +51,10 @@ public class PullZone : MonoBehaviour {
 		// check if object leaving pullzone is one that was loaded
 		if(loadedObject != null && 
 			loadedObject.gameObject.GetInstanceID() == collider.attachedRigidbody.gameObject.GetInstanceID()) {
-			// unload object
-			loadedObject = null;
-			Debug.Log(loadedObject);
+            // unload object
+            loadedObject = null;
+            Debug.Log(loadedObject);
+
 		} // if
 	}
 
