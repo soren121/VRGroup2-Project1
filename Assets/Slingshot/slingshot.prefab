@@ -227,6 +227,7 @@ MonoBehaviour:
   player: {fileID: 0}
   strength: 1000
   slingshotHand: left
+  ShotSound: {fileID: 1512365294048316, guid: 234969c3bbd4c444f9a94ce373794600, type: 2}
 --- !u!114 &114112499996570214
 MonoBehaviour:
   m_ObjectHideFlags: 1

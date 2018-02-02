@@ -58,7 +58,8 @@ public class Slingshot : MonoBehaviour {
 			if((slingshotHand == "left" && player.rightHeldObject == null) || 
 				(slingshotHand == "right" && player.leftHeldObject == null)) {
 				LaunchObject ();
-			}
+                GameObject.Instantiate(ShotSound);
+            }
 			yield return null;
 		}
 		yield return null;
@@ -100,8 +101,6 @@ public class Slingshot : MonoBehaviour {
 			yield return null;
 		} // while
           // destroy the bands since there is no more loaded object
-        GameObject.Instantiate(ShotSound);
-        GameObject.Destroy(ShotSound);
         Debug.Log("bands destroyed");
 		Destroy(leftBand);
 		Destroy(rightBand);
