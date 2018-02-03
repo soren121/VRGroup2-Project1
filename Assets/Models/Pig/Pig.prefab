@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4441910509880400}
   - component: {fileID: 54053006499390664}
+  - component: {fileID: 114210117650349564}
   m_Layer: 0
   m_Name: Pig
   m_TagString: Untagged
@@ -128,6 +129,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!114 &114210117650349564
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1551920664069420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6d26c5ed239d2145966e22e1432b57e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PoofSound: {fileID: 1717049948134134, guid: 378d764b508d4984299438ec470261d6, type: 2}
+  Poof: {fileID: 1421439613037500, guid: 6f23fd7ff03141b468f63c1c125d79bb, type: 2}
 --- !u!135 &135896275793555974
 SphereCollider:
   m_ObjectHideFlags: 1

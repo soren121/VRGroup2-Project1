@@ -198,6 +198,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed256962e9320174d9020120391e396d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PoofSound: {fileID: 1717049948134134, guid: 378d764b508d4984299438ec470261d6, type: 2}
+  Poof: {fileID: 1421439613037500, guid: 6f23fd7ff03141b468f63c1c125d79bb, type: 2}
+  hasCollided: 0
 --- !u!135 &135724547299996046
 SphereCollider:
   m_ObjectHideFlags: 1

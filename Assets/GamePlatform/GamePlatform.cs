@@ -5,20 +5,11 @@ using UnityEngine;
 public class GamePlatform : MonoBehaviour {
 
 	public GameObject spawnPlatform;
-	public Rigidbody thingToSpawn;
-    public GameObject PoofSound;
-    public GameObject Poof;
-
     private Transform spawnLocation;
 
 	// Use this for initialization
 	void Start () {
-		spawnLocation = GameObject.Find("SpawnPlatformGraphics/SpawnLocation").transform;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+		spawnLocation = spawnPlatform.transform.Find("SpawnPlatformGraphics/SpawnLocation").transform;
 	}
 
 	// Called when something hits the game platform
@@ -28,29 +19,20 @@ public class GamePlatform : MonoBehaviour {
 
 	// Determines what hit the floor, and then performs the appropriate action
 	private IEnumerator handleCollision(Collision collision) {
-		Debug.Log("A "+collision.transform.name+" hit the floor.");
-		if(collision.rigidbody.transform.name == "Pig") {
-            GameObject.Instantiate(PoofSound);
-            yield return new WaitForSeconds(2);
-            GameObject.Destroy(PoofSound);
-            GameObject.Destroy(collision.gameObject);
-		} else if(collision.rigidbody.transform.name == "AngryBird" || collision.rigidbody.transform.name == "AngryBird(Clone)") {
+		// Log what collided
+		Debug.Log("A " + collision.transform.name + " hit the floor.");
+		
+		// Determine if the collider is an actionableobject
+		Actionable actionableObj = collision.gameObject.GetComponent<Actionable>();
+		if (actionableObj != null) {
+			Debug.Log(collision.transform.name + " is actionable!");
+			// Retrieve its collision handler and execute it
+			IEnumerator collisionHandler = actionableObj.HandleCollision(collision, spawnLocation).GetEnumerator();
+			while (collisionHandler.MoveNext()) {
+				yield return collisionHandler.Current;
+			}
+		}
 
-            GameObject.Instantiate(PoofSound);
-            Vector3 direction = (collision.gameObject.transform.position - PoofSound.transform.position).normalized;
-            PoofSound.transform.position += direction;
-
-            //GameObject.Instantiate(Poof);
-            //Vector3 direction1 = (collision.gameObject.transform.position - Poof.transform.position).normalized;
-            //Poof.transform.position += direction1;
-
-            yield return new WaitForSeconds(1);
-
-            GameObject.Destroy(PoofSound);
-            //GameObject.Destroy(Poof);
-            GameObject.Instantiate<Rigidbody>(thingToSpawn, spawnLocation.position, spawnLocation.rotation);
-            //GameObject.Destroy(collision.gameObject);
-        }
 		yield return null;
 	}
 }

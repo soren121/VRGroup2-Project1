@@ -72,6 +72,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4150490056686530}
   - component: {fileID: 54744720800940272}
+  - component: {fileID: 114034435983526200}
   m_Layer: 0
   m_Name: Pig
   m_TagString: Untagged
@@ -870,6 +871,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 5, z: 0.7}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114034435983526200
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1133204937172654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6d26c5ed239d2145966e22e1432b57e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PoofSound: {fileID: 1717049948134134, guid: 378d764b508d4984299438ec470261d6, type: 2}
+  Poof: {fileID: 1421439613037500, guid: 6f23fd7ff03141b468f63c1c125d79bb, type: 2}
 --- !u!135 &135121363327613148
 SphereCollider:
   m_ObjectHideFlags: 1
