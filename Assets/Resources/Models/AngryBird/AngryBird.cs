@@ -9,33 +9,43 @@ public class AngryBird : Actionable {
     public GameObject PoofSound;
     public GameObject Poof;
 
-	public bool hasCollided = false;
-
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody>();
 		rb.maxAngularVelocity = Mathf.Infinity;
 	}
 
-	public override IEnumerable HandleCollision(Collision collision) {
-		if (!hasCollided) {
-			GameObject newPoofSound = GameObject.Instantiate(PoofSound);
-			Vector3 direction = (collision.gameObject.transform.position - newPoofSound.transform.position).normalized;
-			newPoofSound.transform.position += direction;
+	void OnBecameInvisible() {
+		Destroy(gameObject);
+	}
 
-			//GameObject.Instantiate(Poof);
-			//Vector3 direction1 = (collision.gameObject.transform.position - Poof.transform.position).normalized;
-			//Poof.transform.position += direction1;
+	public override IEnumerable HandleFloorCollision(Collision collision) {
+		GameObject newPoofSound = GameObject.Instantiate(PoofSound);
+		Vector3 direction = (collision.gameObject.transform.position - newPoofSound.transform.position).normalized;
+		newPoofSound.transform.position += direction;
 
-			GameStatus.instance.SpawnNextBird();
-			yield return new WaitForSeconds(1);
-
-			GameObject.Destroy(newPoofSound);
-			//GameObject.Destroy(Poof);
-			//GameObject.Destroy(collision.gameObject);
-			hasCollided = true;
-		}
+		//GameObject.Instantiate(Poof);
+		//Vector3 direction1 = (collision.gameObject.transform.position - Poof.transform.position).normalized;
+		//Poof.transform.position += direction1;
 		
+		yield return new WaitForSeconds(1);
+
+		GameObject.Destroy(newPoofSound);
+		GameObject.Destroy(gameObject);
+		
+		yield return null;
+	}
+
+	public override IEnumerable HandlePlankCollision(Collision c) {
+		GameObject newPoofSound = GameObject.Instantiate(PoofSound);
+		Vector3 direction = (c.gameObject.transform.position - newPoofSound.transform.position).normalized;
+		newPoofSound.transform.position += direction;
+
+		yield return new WaitForSeconds(1);
+
+		GameObject.Destroy(newPoofSound);
+		//GameObject.Destroy(c.collider.gameObject);
+
 		yield return null;
 	}
 }

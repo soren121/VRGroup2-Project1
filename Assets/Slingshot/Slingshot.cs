@@ -57,8 +57,14 @@ public class Slingshot : MonoBehaviour {
 			// check if let go of loaded object inside pullzone
 			if((slingshotHand == "left" && player.rightHeldObject == null) || 
 				(slingshotHand == "right" && player.leftHeldObject == null)) {
-				LaunchObject ();
+				LaunchObject();
                 GameObject.Instantiate(ShotSound);
+
+				StartCoroutine(WaitForPhysics());
+
+				// Wait and then spawn a new bird
+				yield return new WaitForSeconds(2);
+				GameStatus.instance.SpawnNextBird();
             }
 			yield return null;
 		}
@@ -105,5 +111,24 @@ public class Slingshot : MonoBehaviour {
 		Destroy(leftBand);
 		Destroy(rightBand);
 		yield return null;
+	}
+
+	IEnumerator WaitForPhysics() {
+		Rigidbody[] rbs = FindObjectsOfType(typeof(Rigidbody)) as Rigidbody[];
+		bool sleeping = false;
+
+		while (!sleeping) {
+			sleeping = true;
+
+			foreach (Rigidbody rb in rbs) {
+				if (rb != null && !rb.IsSleeping()) {
+					sleeping = false;
+					yield return null;
+					break;
+				}
+			}
+		}
+
+		GameStatus.instance.CheckScore();
 	}
 }

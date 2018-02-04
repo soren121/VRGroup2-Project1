@@ -4,5 +4,6 @@ using UnityEngine;
 
 public abstract class Actionable : MonoBehaviour {
 
-	public abstract IEnumerable HandleCollision(Collision c);
+	public abstract IEnumerable HandleFloorCollision(Collision c);
+	public abstract IEnumerable HandlePlankCollision(Collision c);
 }

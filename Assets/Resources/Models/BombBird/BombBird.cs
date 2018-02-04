@@ -23,6 +23,10 @@ public class BombBird : Actionable
         rb.maxAngularVelocity = Mathf.Infinity;
     }
 
+    void OnBecameInvisible() {
+		Destroy(gameObject);
+	}
+
     void detonate()
     {
         Debug.Log("Detonation!");
@@ -53,30 +57,35 @@ public class BombBird : Actionable
         }
     }
 
-    public override IEnumerable HandleCollision(Collision collision)
+    public override IEnumerable HandleFloorCollision(Collision collision)
     {
-        if (!hasCollided)
-        {
-            GameObject newPoofSound = GameObject.Instantiate(PoofSound);
-            Vector3 direction = (collision.gameObject.transform.position - newPoofSound.transform.position).normalized;
-            newPoofSound.transform.position += direction;
+        GameObject newPoofSound = GameObject.Instantiate(PoofSound);
+        Vector3 direction = (collision.gameObject.transform.position - newPoofSound.transform.position).normalized;
+        newPoofSound.transform.position += direction;
 
-            //GameObject.Instantiate(Poof);
-            //Vector3 direction1 = (collision.gameObject.transform.position - Poof.transform.position).normalized;
-            //Poof.transform.position += direction1;
+        //GameObject.Instantiate(Poof);
+        //Vector3 direction1 = (collision.gameObject.transform.position - Poof.transform.position).normalized;
+        //Poof.transform.position += direction1;
 
-            GameStatus.instance.SpawnNextBird();
-            yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1);
 
-            GameObject.Destroy(newPoofSound);
-            //GameObject.Destroy(Poof);
-            //GameObject.Destroy(collision.gameObject);
-            
-            
-            hasCollided = true;
-        }
+        GameObject.Destroy(newPoofSound);
+        GameObject.Destroy(gameObject);
 
         yield return null;
     }
+
+    public override IEnumerable HandlePlankCollision(Collision c) {
+        GameObject newPoofSound = GameObject.Instantiate(PoofSound);
+		Vector3 direction = (c.gameObject.transform.position - newPoofSound.transform.position).normalized;
+		newPoofSound.transform.position += direction;
+
+		yield return new WaitForSeconds(1);
+
+		GameObject.Destroy(newPoofSound);
+		//GameObject.Destroy(c.collider.gameObject);
+
+		yield return null;
+	}
 }
 
