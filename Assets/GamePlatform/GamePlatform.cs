@@ -5,11 +5,13 @@ using UnityEngine;
 public class GamePlatform : MonoBehaviour {
 
 	public GameObject spawnPlatform;
+    public GameObject BombSpawnPlatform;
     private Transform spawnLocation;
-
+    private Transform BombSpawnLocation;
 	// Use this for initialization
 	void Start () {
 		spawnLocation = spawnPlatform.transform.Find("SpawnPlatformGraphics/SpawnLocation").transform;
+        BombSpawnLocation = BombSpawnPlatform.transform.Find("SpawnPlatformGraphics/BombSpawnLocation").transform;
 	}
 
 	// Called when something hits the game platform
@@ -26,9 +28,17 @@ public class GamePlatform : MonoBehaviour {
 		Actionable actionableObj = collision.gameObject.GetComponent<Actionable>();
 		if (actionableObj != null) {
 			Debug.Log(collision.transform.name + " is actionable!");
-			// Retrieve its collision handler and execute it
-			IEnumerator collisionHandler = actionableObj.HandleCollision(collision, spawnLocation).GetEnumerator();
-			while (collisionHandler.MoveNext()) {
+            // Retrieve its collision handler and execute it
+            IEnumerator collisionHandler;
+            if(collision.transform.name == "BombBird")
+            {
+                collisionHandler = actionableObj.HandleCollision(collision, BombSpawnLocation).GetEnumerator();
+            }
+            else
+            {
+                collisionHandler = actionableObj.HandleCollision(collision, spawnLocation).GetEnumerator();
+            }
+            while (collisionHandler.MoveNext()) {
 				yield return collisionHandler.Current;
 			}
 		}
