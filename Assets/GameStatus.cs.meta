@@ -1,11 +1,13 @@
 fileFormatVersion: 2
 guid: a3ca6ebf287870b489e98dc687662c01
-timeCreated: 1517693968
+timeCreated: 1517780690
 licenseType: Free
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
+  - spawnPlatform: {fileID: 1395597233334740, guid: 82b5b32d3c8ad1944ab339a2333d6ed9,
+      type: 2}
   - birdsTextObj: {fileID: 1284138958338636, guid: 3f6bdee20a7e24ea3b5177969ef6fe1a,
       type: 2}
   - pigsTextObj: {fileID: 1880937640603004, guid: 3f6bdee20a7e24ea3b5177969ef6fe1a,

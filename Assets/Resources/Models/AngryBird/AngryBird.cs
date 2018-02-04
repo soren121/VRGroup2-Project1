@@ -17,7 +17,7 @@ public class AngryBird : Actionable {
 		rb.maxAngularVelocity = Mathf.Infinity;
 	}
 
-	public override IEnumerable HandleCollision(Collision collision, Transform spawnLocation) {
+	public override IEnumerable HandleCollision(Collision collision) {
 		if (!hasCollided) {
 			GameObject newPoofSound = GameObject.Instantiate(PoofSound);
 			Vector3 direction = (collision.gameObject.transform.position - newPoofSound.transform.position).normalized;
@@ -27,13 +27,12 @@ public class AngryBird : Actionable {
 			//Vector3 direction1 = (collision.gameObject.transform.position - Poof.transform.position).normalized;
 			//Poof.transform.position += direction1;
 
+			GameStatus.instance.SpawnNextBird();
 			yield return new WaitForSeconds(1);
 
 			GameObject.Destroy(newPoofSound);
 			//GameObject.Destroy(Poof);
-			Instantiate(rb, spawnLocation.position, spawnLocation.rotation);
 			//GameObject.Destroy(collision.gameObject);
-
 			hasCollided = true;
 		}
 		

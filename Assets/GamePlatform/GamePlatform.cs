@@ -4,16 +4,6 @@ using UnityEngine;
 
 public class GamePlatform : MonoBehaviour {
 
-	public GameObject spawnPlatform;
-    public GameObject BombSpawnPlatform;
-    private Transform spawnLocation;
-    private Transform BombSpawnLocation;
-	// Use this for initialization
-	void Start () {
-		spawnLocation = spawnPlatform.transform.Find("SpawnPlatformGraphics/SpawnLocation").transform;
-        BombSpawnLocation = BombSpawnPlatform.transform.Find("SpawnPlatformGraphics/BombSpawnLocation").transform;
-	}
-
 	// Called when something hits the game platform
 	void OnCollisionEnter(Collision collision) {
 		StartCoroutine(handleCollision(collision));
@@ -24,20 +14,12 @@ public class GamePlatform : MonoBehaviour {
 		// Log what collided
 		Debug.Log("A " + collision.transform.name + " hit the floor.");
 		
-		// Determine if the collider is an actionableobject
+		// Determine if the collider is an actionable object (bird/pig)
 		Actionable actionableObj = collision.gameObject.GetComponent<Actionable>();
 		if (actionableObj != null) {
 			Debug.Log(collision.transform.name + " is actionable!");
             // Retrieve its collision handler and execute it
-            IEnumerator collisionHandler;
-            if(collision.transform.name == "BombBird")
-            {
-                collisionHandler = actionableObj.HandleCollision(collision, BombSpawnLocation).GetEnumerator();
-            }
-            else
-            {
-                collisionHandler = actionableObj.HandleCollision(collision, spawnLocation).GetEnumerator();
-            }
+            IEnumerator collisionHandler = actionableObj.HandleCollision(collision).GetEnumerator();
             while (collisionHandler.MoveNext()) {
 				yield return collisionHandler.Current;
 			}
