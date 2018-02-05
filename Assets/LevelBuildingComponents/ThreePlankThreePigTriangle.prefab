@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 135871907817533928}
   m_Layer: 0
   m_Name: PigGraphics
-  m_TagString: Untagged
+  m_TagString: Pig
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -123,6 +123,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4314860892564620}
   - component: {fileID: 54804804118646240}
+  - component: {fileID: 114246666543498540}
   m_Layer: 0
   m_Name: Pig
   m_TagString: Untagged
@@ -236,6 +237,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4477869441684700}
   - component: {fileID: 54946950101294932}
+  - component: {fileID: 114051136528438838}
   m_Layer: 0
   m_Name: Pig
   m_TagString: Untagged
@@ -877,6 +879,32 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1133204937172654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6d26c5ed239d2145966e22e1432b57e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PoofSound: {fileID: 1717049948134134, guid: 378d764b508d4984299438ec470261d6, type: 2}
+  Poof: {fileID: 1421439613037500, guid: 6f23fd7ff03141b468f63c1c125d79bb, type: 2}
+--- !u!114 &114051136528438838
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1794211100652180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6d26c5ed239d2145966e22e1432b57e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PoofSound: {fileID: 1717049948134134, guid: 378d764b508d4984299438ec470261d6, type: 2}
+  Poof: {fileID: 1421439613037500, guid: 6f23fd7ff03141b468f63c1c125d79bb, type: 2}
+--- !u!114 &114246666543498540
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1517579852399456}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d6d26c5ed239d2145966e22e1432b57e, type: 3}
