@@ -70,13 +70,16 @@ public class Slingshot : MonoBehaviour {
 			// check if let go of loaded object inside pullzone
 			if((slingshotHand == "left" && player.rightHeldObject == null) || 
 				(slingshotHand == "right" && player.leftHeldObject == null)) {
+				GameObject loadedObject = pullZone.loadedObject.gameObject;
 				LaunchObject();
 				GameObject.Instantiate(ShotSound);
+				loadedObject.GetComponent<Actionable>().hasFired = true;
+				Debug.Log(pullZone.loadedObject);
 
 				StartCoroutine(WaitForPhysics());
 
-				// Wait and then spawn a new bird
 				yield return new WaitForSeconds(2);
+				GameStatus.instance.DecreaseBirdCount();
 				GameStatus.instance.SpawnNextBird();
 			}
 			yield return null;
@@ -143,5 +146,6 @@ public class Slingshot : MonoBehaviour {
 		}
 
 		GameStatus.instance.CheckScore();
+		yield return null;
 	}
 }

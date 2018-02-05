@@ -31,48 +31,53 @@ public class drawBallisticArc : MonoBehaviour
 		// we know this is highly inefficient but wanted to get it working asap
 		go = GameObject.Find("slingshot");
 		Slingshot ss = go.GetComponent(typeof(Slingshot)) as Slingshot;
-		Vector3 velocityVect = ss.CalculateV();
-		lr.SetVertexCount((int)(timeMaximum / timeStep));
+		PullZone pz = ss.GetComponentInChildren<PullZone>();
+		if((ss.slingshotHand == "left" && pz.loadedObject != null) || 
+			(ss.slingshotHand == "right" && pz.loadedObject != null)) {
+			
+			Vector3 velocityVect = ss.CalculateV();
+			lr.SetVertexCount((int)(timeMaximum / timeStep));
 
-		Vector3 currPos = transform.position;
+			Vector3 currPos = transform.position;
 
-		int i = 0; // index
-
-
-		for (float t = 0.0f; t < timeMaximum; t += timeStep)
-		{
-			lr.SetPosition(i, currPos);
+			int i = 0; // index
 
 
-			// project target impact point
-			RaycastHit impact;
-
-			if (Physics.Raycast(currPos, velocityVect, out impact, velocityVect.magnitude, layerMask))
+			for (float t = 0.0f; t < timeMaximum; t += timeStep)
 			{
+				lr.SetPosition(i, currPos);
 
-				lr.SetVertexCount(i + 2);
-				lr.SetPosition(i + 1, impact.point);
 
-				if (impactCircle != null)
+				// project target impact point
+				RaycastHit impact;
+
+				if (Physics.Raycast(currPos, velocityVect, out impact, velocityVect.magnitude, layerMask))
 				{
-					if (impactCircleInstance != null)
+
+					lr.SetVertexCount(i + 2);
+					lr.SetPosition(i + 1, impact.point);
+
+					if (impactCircle != null)
 					{
-						impactCircleInstance.transform.position = impact.point;
+						if (impactCircleInstance != null)
+						{
+							impactCircleInstance.transform.position = impact.point;
+						}
+						else
+						{
+							impactCircleInstance = Instantiate(impactCircle, impact.point, Quaternion.identity) as GameObject;
+						}
 					}
-					else
-					{
-						impactCircleInstance = Instantiate(impactCircle, impact.point, Quaternion.identity) as GameObject;
-					}
+					break;
+
 				}
-				break;
+				// update position
+				currPos = currPos + (velocityVect * timeStep);
 
+				// account for gravity on arc
+				velocityVect += (Physics.gravity * timeStep);
+				i++;
 			}
-			// update position
-			currPos = currPos + (velocityVect * timeStep);
-
-			// account for gravity on arc
-			velocityVect += (Physics.gravity * timeStep);
-			i++;
 		}
 	}
 }

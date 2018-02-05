@@ -20,19 +20,24 @@ public class AngryBird : Actionable {
 	}
 
 	public override IEnumerable HandleFloorCollision(Collision collision) {
-		GameObject newPoofSound = GameObject.Instantiate(PoofSound);
-		Vector3 direction = (collision.gameObject.transform.position - newPoofSound.transform.position).normalized;
-		newPoofSound.transform.position += direction;
+		if (!hasFired) {
+			GameStatus.instance.SpawnNextBird();
+			GameObject.Destroy(gameObject);
+		} else {
+			GameObject newPoofSound = GameObject.Instantiate(PoofSound);
+			Vector3 direction = (collision.gameObject.transform.position - newPoofSound.transform.position).normalized;
+			newPoofSound.transform.position += direction;
 
-		//GameObject.Instantiate(Poof);
-		//Vector3 direction1 = (collision.gameObject.transform.position - Poof.transform.position).normalized;
-		//Poof.transform.position += direction1;
-		
-		yield return new WaitForSeconds(1);
+			//GameObject.Instantiate(Poof);
+			//Vector3 direction1 = (collision.gameObject.transform.position - Poof.transform.position).normalized;
+			//Poof.transform.position += direction1;
+			
+			yield return new WaitForSeconds(1);
 
-		GameObject.Destroy(newPoofSound);
-		GameObject.Destroy(gameObject);
-		
+			GameObject.Destroy(newPoofSound);
+			GameObject.Destroy(gameObject);
+		}
+
 		yield return null;
 	}
 

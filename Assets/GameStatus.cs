@@ -49,7 +49,7 @@ public class GameStatus : MonoBehaviour {
 		};
 
 		pigCount = GameObject.FindGameObjectsWithTag("Pig").Length;
-		birdCount = birdOrder.Count + 1;
+		birdCount = birdOrder.Count;
 
 		SpawnNextBird();
 	}
@@ -85,15 +85,14 @@ public class GameStatus : MonoBehaviour {
 		pigCount--;
 	}
 
-	public void SpawnNextBird() {
+	public void DecreaseBirdCount() {
 		birdCount--;
-		if (birdCount <= 0) {
-			birdCount = 0;
-			return;
-		}
+	}
 
+	public void SpawnNextBird() {
 		string bird = birdOrder[birdOrder.Count - birdCount];
+		Debug.Log("Accessing bird \"" + bird + "\" at index " + (birdOrder.Count - birdCount));
 		GameObject newBird = Resources.Load("Models/" + bird + "/" + bird, typeof(GameObject)) as GameObject;
-		Instantiate(newBird.GetComponent<Rigidbody>(), spawnLocation.position, spawnLocation.rotation);
+		Instantiate(newBird, spawnLocation.position, spawnLocation.rotation);
 	}	
 }
