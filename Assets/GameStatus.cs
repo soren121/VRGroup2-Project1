@@ -95,11 +95,15 @@ public class GameStatus : MonoBehaviour {
 	}
 
 	public void DecreasePigCount() {
-		pigCount--;
+		if (pigCount > 0) {
+			pigCount--;
+		}
 	}
 
 	public void DecreaseBirdCount() {
-		birdCount--;
+		if (birdCount > 0) {
+			birdCount--;
+		}
 	}
 
 	public void SpawnNextBird() {

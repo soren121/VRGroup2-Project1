@@ -7,6 +7,7 @@ public class Slingshot : MonoBehaviour {
 	public Player player;
 	public float strength;
 	public string slingshotHand;
+	public Shader alphaBlendPremultiply;
 
 	private Transform leftAnchorPoint;
 	private Transform rightAnchorPoint;
@@ -104,8 +105,8 @@ public class Slingshot : MonoBehaviour {
 		LineRenderer leftLR = leftBand.GetComponent<LineRenderer>();
 		LineRenderer rightLR = rightBand.GetComponent<LineRenderer>();
 		// **(idk what this does yet)
-		leftLR.material = new Material(Shader.Find("Particles/Alpha Blended Premultiply"));
-		rightLR.material = new Material(Shader.Find("Particles/Alpha Blended Premultiply"));
+		leftLR.material = new Material(alphaBlendPremultiply);
+		rightLR.material = new Material(alphaBlendPremultiply);
 		// set the color of the bands
 		leftLR.startColor = Color.black; leftLR.endColor = Color.red;
 		rightLR.startColor = Color.black; rightLR.endColor = Color.red;
