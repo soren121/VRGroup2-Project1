@@ -7,7 +7,7 @@ public class BombBird : Actionable
 	Rigidbody rb;
 
 	public GameObject PoofSound;
-	public GameObject Poof;
+	//public GameObject Poof;
 	public float explosionForce = 300.0f;
 	public float explosionRadius = 10.0f;
 	public float upForce = 1.0f;
@@ -62,17 +62,17 @@ public class BombBird : Actionable
 			GameStatus.instance.SpawnNextBird();
 			GameObject.Destroy(gameObject);
 		} else {
-			GameObject newPoofSound = GameObject.Instantiate(PoofSound);
-			Vector3 direction = (collision.gameObject.transform.position - newPoofSound.transform.position).normalized;
-			newPoofSound.transform.position += direction;
+			ContactPoint contact = collision.contacts[0];
+			Quaternion rot = Quaternion.FromToRotation(Vector3.up, contact.normal);
+			Vector3 pos = contact.point + Vector3.up;
 
-			//GameObject.Instantiate(Poof);
-			//Vector3 direction1 = (collision.gameObject.transform.position - Poof.transform.position).normalized;
-			//Poof.transform.position += direction1;
-
+			GameObject newPoofSound = GameObject.Instantiate(PoofSound, pos, rot);
+			//GameObject newPoof = GameObject.Instantiate(Poof, pos, rot);
+			
 			yield return new WaitForSeconds(1);
 
 			GameObject.Destroy(newPoofSound);
+			//GameObject.Destroy(newPoof);
 			GameObject.Destroy(gameObject);
 		}
 		

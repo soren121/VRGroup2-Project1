@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameStatus : MonoBehaviour {
 
@@ -60,6 +61,8 @@ public class GameStatus : MonoBehaviour {
 		AudioSource source = GameObject.Find("Player/Head").GetComponent<AudioSource>();
 		source.clip = levelWonClip;
 		source.Play();
+
+		InitLevel();
 	}
 
 	private void GameOver() {
@@ -68,6 +71,8 @@ public class GameStatus : MonoBehaviour {
 		AudioSource source = GameObject.Find("Player/Head").GetComponent<AudioSource>();
 		source.clip = gameOverClip;
 		source.Play();
+
+		InitLevel();
 	}
 
 	public void CheckScore() {
@@ -90,6 +95,10 @@ public class GameStatus : MonoBehaviour {
 	}
 
 	public void SpawnNextBird() {
+		if (birdCount <= 0) {
+			return;
+		}
+
 		string bird = birdOrder[birdOrder.Count - birdCount];
 		Debug.Log("Accessing bird \"" + bird + "\" at index " + (birdOrder.Count - birdCount));
 		GameObject newBird = Resources.Load("Models/" + bird + "/" + bird, typeof(GameObject)) as GameObject;

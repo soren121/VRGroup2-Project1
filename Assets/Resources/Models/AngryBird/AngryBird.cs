@@ -25,17 +25,18 @@ public class AngryBird : Actionable {
 			GameObject.Destroy(gameObject);
 		} else {
 			GameObject newPoofSound = GameObject.Instantiate(PoofSound);
-			Vector3 direction = (collision.gameObject.transform.position - newPoofSound.transform.position).normalized;
-			newPoofSound.transform.position += direction;
+			//GameObject newPoof = GameObject.Instantiate(Poof);
 
-			//GameObject.Instantiate(Poof);
-			//Vector3 direction1 = (collision.gameObject.transform.position - Poof.transform.position).normalized;
-			//Poof.transform.position += direction1;
-			
-			yield return new WaitForSeconds(1);
+			// newPoof.transform.parent = gameObject.transform;
+			newPoofSound.transform.parent = gameObject.transform;
 
-			GameObject.Destroy(newPoofSound);
-			GameObject.Destroy(gameObject);
+			float lockPos = 0f;
+			// newPoof.transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, lockPos, lockPos);
+			newPoofSound.transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, lockPos, lockPos);
+
+			GameObject.Destroy(newPoofSound, 2f);
+			// GameObject.Destroy(newPoof, 2f);
+			GameObject.Destroy(gameObject, 1f);
 		}
 
 		yield return null;

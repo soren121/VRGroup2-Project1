@@ -29,14 +29,13 @@ public class drawBallisticArc : MonoBehaviour
 	{
 		Debug.Log("Drawing Ballistic Arc");
 		// we know this is highly inefficient but wanted to get it working asap
-		go = GameObject.Find("slingshot");
-		Slingshot ss = go.GetComponent(typeof(Slingshot)) as Slingshot;
+		Slingshot ss = gameObject.transform.parent.GetComponent<Slingshot>() as Slingshot;
 		PullZone pz = ss.GetComponentInChildren<PullZone>();
 		if((ss.slingshotHand == "left" && pz.loadedObject != null) || 
 			(ss.slingshotHand == "right" && pz.loadedObject != null)) {
 			
 			Vector3 velocityVect = ss.CalculateV();
-			lr.SetVertexCount((int)(timeMaximum / timeStep));
+			lr.positionCount = (int)(timeMaximum / timeStep);
 
 			Vector3 currPos = transform.position;
 
@@ -54,7 +53,7 @@ public class drawBallisticArc : MonoBehaviour
 				if (Physics.Raycast(currPos, velocityVect, out impact, velocityVect.magnitude, layerMask))
 				{
 
-					lr.SetVertexCount(i + 2);
+					lr.positionCount = i + 2;
 					lr.SetPosition(i + 1, impact.point);
 
 					if (impactCircle != null)
@@ -66,6 +65,7 @@ public class drawBallisticArc : MonoBehaviour
 						else
 						{
 							impactCircleInstance = Instantiate(impactCircle, impact.point, Quaternion.identity) as GameObject;
+							impactCircleInstance.transform.parent = gameObject.transform;
 						}
 					}
 					break;

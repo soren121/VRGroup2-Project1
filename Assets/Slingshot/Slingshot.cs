@@ -12,7 +12,6 @@ public class Slingshot : MonoBehaviour {
 	private Transform rightAnchorPoint;
 	private PullZone pullZone;
 
-
 	public Vector3 launchVelocity;
 	public GameObject ShotSound;
 
@@ -23,17 +22,14 @@ public class Slingshot : MonoBehaviour {
 		// the slingshot's anchor points for the band
 		leftAnchorPoint = transform.Find("LeftAnchorPoint");
 		rightAnchorPoint = transform.Find("RightAnchorPoint");
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+		gameObject.transform.Find("ballisticPathGraphics").gameObject.SetActive(false);
 	}
 
 	public void LoadSlingshot() {
+		gameObject.transform.Find("ballisticPathGraphics").gameObject.SetActive(true);
+
 		StartCoroutine(DrawSlingshotBand());
 		StartCoroutine(CheckForLaunch());
-	   
 	}
 
 	// @ben - moved velocity calcs out of launchobject so they would be accessible to external scrpit (ballistic arc)
@@ -62,6 +58,8 @@ public class Slingshot : MonoBehaviour {
 		obj.velocity = launchV;
 		pullZone.loadedObject = null;
 		Debug.DrawLine (pullbackStart, pullbackEnd);
+
+		gameObject.transform.Find("ballisticPathGraphics").gameObject.SetActive(false);
 	}
 
    
@@ -123,6 +121,7 @@ public class Slingshot : MonoBehaviour {
 			yield return null;
 		} // while
 		  // destroy the bands since there is no more loaded object
+		gameObject.transform.Find("ballisticPathGraphics").gameObject.SetActive(false);
 		Debug.Log("bands destroyed");
 		Destroy(leftBand);
 		Destroy(rightBand);
