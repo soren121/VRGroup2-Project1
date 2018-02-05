@@ -12,6 +12,8 @@ public class Slingshot : MonoBehaviour {
 	private Transform rightAnchorPoint;
 	private PullZone pullZone;
 
+
+    public Vector3 launchVelocity;
     public GameObject ShotSound;
 
     // Use this for initialization
@@ -31,27 +33,38 @@ public class Slingshot : MonoBehaviour {
 	public void LoadSlingshot() {
 		StartCoroutine(DrawSlingshotBand());
 		StartCoroutine(CheckForLaunch());
+       
 	}
+
+    // @ben - moved velocity calcs out of launchobject so they would be accessible to external scrpit (ballistic arc)
+    public Vector3 CalculateV()
+    {
+        Rigidbody obj = pullZone.loadedObject;
+        Vector3 pullbackStart = (leftAnchorPoint.position + rightAnchorPoint.position) / 2;
+        Vector3 pullbackEnd = obj.transform.position;
+        // calculate launch direction
+        Vector3 launchDirection = -(pullbackEnd - pullbackStart).normalized;
+        // calculate launch speed (spring force formula)
+        float launchSpeed = (pullbackEnd - pullbackStart).magnitude * Mathf.Sqrt(strength / obj.mass);
+        // calculate launch velocity
+       launchVelocity = launchDirection * launchSpeed;
+       return launchVelocity;
+    }
 
 	public void LaunchObject() {
 		Debug.Log ("object launched");
-		Rigidbody obj = pullZone.loadedObject;
-		Vector3 pullbackStart = (leftAnchorPoint.position + rightAnchorPoint.position)/2;
-		Vector3 pullbackEnd = obj.transform.position;
-		// calculate launch direction
-		Vector3 launchDirection = -(pullbackEnd - pullbackStart).normalized;
-		// calculate launch speed (spring force formula)
-		float launchSpeed = (pullbackEnd - pullbackStart).magnitude * Mathf.Sqrt(strength / obj.mass);
-		// calculate launch velocity
-		Vector3 launchVelocity = launchDirection * launchSpeed;
-		// make the loaded object non-kinematic so force can be added
-		obj.isKinematic = false;
-		obj.velocity = launchVelocity;
-		// unload object
+        Rigidbody obj = pullZone.loadedObject;
+        Vector3 pullbackStart = (leftAnchorPoint.position + rightAnchorPoint.position) / 2;
+        Vector3 pullbackEnd = obj.transform.position;
+        Vector3 launchV = CalculateV();
+        // make the loaded object non-kinematic so force can be added
+        obj.isKinematic = false;
+        obj.velocity = launchV;
 		pullZone.loadedObject = null;
 		Debug.DrawLine (pullbackStart, pullbackEnd);
 	}
 
+   
 	IEnumerator CheckForLaunch() {
 		while (pullZone.loadedObject != null) {
 			// check if let go of loaded object inside pullzone
