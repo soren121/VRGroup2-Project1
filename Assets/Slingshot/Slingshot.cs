@@ -13,11 +13,11 @@ public class Slingshot : MonoBehaviour {
 	private PullZone pullZone;
 
 
-    public Vector3 launchVelocity;
-    public GameObject ShotSound;
+	public Vector3 launchVelocity;
+	public GameObject ShotSound;
 
-    // Use this for initialization
-    void Start () {
+	// Use this for initialization
+	void Start () {
 		pullZone = GetComponentInChildren<PullZone>();
 		pullZone.OnObjectLoaded += LoadSlingshot;
 		// the slingshot's anchor points for the band
@@ -33,33 +33,33 @@ public class Slingshot : MonoBehaviour {
 	public void LoadSlingshot() {
 		StartCoroutine(DrawSlingshotBand());
 		StartCoroutine(CheckForLaunch());
-       
+	   
 	}
 
-    // @ben - moved velocity calcs out of launchobject so they would be accessible to external scrpit (ballistic arc)
-    public Vector3 CalculateV()
-    {
-        Rigidbody obj = pullZone.loadedObject;
-        Vector3 pullbackStart = (leftAnchorPoint.position + rightAnchorPoint.position) / 2;
-        Vector3 pullbackEnd = obj.transform.position;
-        // calculate launch direction
-        Vector3 launchDirection = -(pullbackEnd - pullbackStart).normalized;
-        // calculate launch speed (spring force formula)
-        float launchSpeed = (pullbackEnd - pullbackStart).magnitude * Mathf.Sqrt(strength / obj.mass);
-        // calculate launch velocity
-       launchVelocity = launchDirection * launchSpeed;
-       return launchVelocity;
-    }
+	// @ben - moved velocity calcs out of launchobject so they would be accessible to external scrpit (ballistic arc)
+	public Vector3 CalculateV()
+	{
+		Rigidbody obj = pullZone.loadedObject;
+		Vector3 pullbackStart = (leftAnchorPoint.position + rightAnchorPoint.position) / 2;
+		Vector3 pullbackEnd = obj.transform.position;
+		// calculate launch direction
+		Vector3 launchDirection = -(pullbackEnd - pullbackStart).normalized;
+		// calculate launch speed (spring force formula)
+		float launchSpeed = (pullbackEnd - pullbackStart).magnitude * Mathf.Sqrt(strength / obj.mass);
+		// calculate launch velocity
+	   launchVelocity = launchDirection * launchSpeed;
+	   return launchVelocity;
+	}
 
 	public void LaunchObject() {
 		Debug.Log ("object launched");
-        Rigidbody obj = pullZone.loadedObject;
-        Vector3 pullbackStart = (leftAnchorPoint.position + rightAnchorPoint.position) / 2;
-        Vector3 pullbackEnd = obj.transform.position;
-        Vector3 launchV = CalculateV();
-        // make the loaded object non-kinematic so force can be added
-        obj.isKinematic = false;
-        obj.velocity = launchV;
+		Rigidbody obj = pullZone.loadedObject;
+		Vector3 pullbackStart = (leftAnchorPoint.position + rightAnchorPoint.position) / 2;
+		Vector3 pullbackEnd = obj.transform.position;
+		Vector3 launchV = CalculateV();
+		// make the loaded object non-kinematic so force can be added
+		obj.isKinematic = false;
+		obj.velocity = launchV;
 		pullZone.loadedObject = null;
 		Debug.DrawLine (pullbackStart, pullbackEnd);
 	}
@@ -71,14 +71,14 @@ public class Slingshot : MonoBehaviour {
 			if((slingshotHand == "left" && player.rightHeldObject == null) || 
 				(slingshotHand == "right" && player.leftHeldObject == null)) {
 				LaunchObject();
-                GameObject.Instantiate(ShotSound);
+				GameObject.Instantiate(ShotSound);
 
 				StartCoroutine(WaitForPhysics());
 
 				// Wait and then spawn a new bird
 				yield return new WaitForSeconds(2);
 				GameStatus.instance.SpawnNextBird();
-            }
+			}
 			yield return null;
 		}
 		yield return null;
@@ -119,8 +119,8 @@ public class Slingshot : MonoBehaviour {
 			rightLR.SetPosition(1, loadedObjectRightAnchorPoint.position);
 			yield return null;
 		} // while
-          // destroy the bands since there is no more loaded object
-        Debug.Log("bands destroyed");
+		  // destroy the bands since there is no more loaded object
+		Debug.Log("bands destroyed");
 		Destroy(leftBand);
 		Destroy(rightBand);
 		yield return null;

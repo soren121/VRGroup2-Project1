@@ -18,9 +18,9 @@ public class WoodPlank : MonoBehaviour {
 		Actionable actionableObj = collision.gameObject.GetComponent<Actionable>();
 		if (actionableObj != null) {
 			Debug.Log(collision.transform.name + " is actionable!");
-            // Retrieve its collision handler and execute it
-            IEnumerator collisionHandler = actionableObj.HandlePlankCollision(collision).GetEnumerator();
-            while (collisionHandler.MoveNext()) {
+			// Retrieve its collision handler and execute it
+			IEnumerator collisionHandler = actionableObj.HandlePlankCollision(collision).GetEnumerator();
+			while (collisionHandler.MoveNext()) {
 				yield return collisionHandler.Current;
 			}
 		}

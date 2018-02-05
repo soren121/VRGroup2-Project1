@@ -6,8 +6,8 @@ public class AngryBird : Actionable {
 
 	Rigidbody rb;
 	
-    public GameObject PoofSound;
-    public GameObject Poof;
+	public GameObject PoofSound;
+	public GameObject Poof;
 
 	// Use this for initialization
 	void Start () {

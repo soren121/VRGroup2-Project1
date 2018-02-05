@@ -5,7 +5,7 @@ using UnityEngine;
 public class Pig : Actionable {
 
 	public GameObject PoofSound;
-    public GameObject Poof;
+	public GameObject Poof;
 
 	public override IEnumerable HandleFloorCollision(Collision c) {
 		GameObject newPoofSound = GameObject.Instantiate(PoofSound);
