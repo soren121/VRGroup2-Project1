@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 public class GameStatus : MonoBehaviour {
 
 	public static GameStatus instance = null;
-	public GameObject spawnPlatform;
 	[HideInInspector] public Transform spawnLocation { get; private set; }
 
 	public GameObject birdsTextObj;
@@ -17,7 +16,6 @@ public class GameStatus : MonoBehaviour {
 	private int pigCount = 0;
 	private int birdCount = 0;
 
-	private int level = 1;
 	private List<string> birdOrder;
 
 	void Awake() {
@@ -32,8 +30,9 @@ public class GameStatus : MonoBehaviour {
 		DontDestroyOnLoad(gameObject);
 
 		// Set spawn location
-		spawnLocation = spawnPlatform.transform.Find("SpawnPlatformGraphics/SpawnLocation").transform;
+		spawnLocation = GameObject.Find("SpawnPlatform/SpawnPlatformGraphics/SpawnLocation").transform;
 
+		//ResetLevel();
 		InitLevel();
 	}
 
@@ -49,20 +48,30 @@ public class GameStatus : MonoBehaviour {
 			"BombBird"
 		};
 
-		pigCount = GameObject.FindGameObjectsWithTag("Pig").Length;
+		pigCount = 3;
 		birdCount = birdOrder.Count;
 
 		SpawnNextBird();
 	}
 
-	private void LoadNextLevel() {
+	private IEnumerator PlayAndResetLevel(AudioSource source) {
+		source.Play();
+		yield return new WaitForSeconds(source.clip.length);
+
+		string currentSceneName = SceneManager.GetActiveScene().name;
+    	SceneManager.LoadScene(currentSceneName);
+
+		InitLevel();
+		yield return null;
+	}
+
+	private void LevelWon() {
 		Debug.Log("Player won! Load next level.");
 
 		AudioSource source = GameObject.Find("Player/Head").GetComponent<AudioSource>();
 		source.clip = levelWonClip;
-		source.Play();
 
-		InitLevel();
+		StartCoroutine(PlayAndResetLevel(source));
 	}
 
 	private void GameOver() {
@@ -70,9 +79,8 @@ public class GameStatus : MonoBehaviour {
 
 		AudioSource source = GameObject.Find("Player/Head").GetComponent<AudioSource>();
 		source.clip = gameOverClip;
-		source.Play();
 
-		InitLevel();
+		StartCoroutine(PlayAndResetLevel(source));
 	}
 
 	public void CheckScore() {
@@ -82,7 +90,7 @@ public class GameStatus : MonoBehaviour {
 		}
 
 		if (pigCount <= 0) {
-			LoadNextLevel();
+			LevelWon();
 		}
 	}
 

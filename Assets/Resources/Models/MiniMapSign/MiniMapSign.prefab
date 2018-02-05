@@ -54,6 +54,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4112994766785460}
   - component: {fileID: 95188940507638690}
+  - component: {fileID: 114794943732877640}
   m_Layer: 0
   m_Name: MiniMapSign
   m_TagString: Untagged
@@ -425,7 +426,7 @@ TextMesh:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1284138958338636}
-  m_Text: 'Birds: -1'
+  m_Text: 'Birds: 3'
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
@@ -446,7 +447,7 @@ TextMesh:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1880937640603004}
-  m_Text: 'Pigs: 1'
+  m_Text: 'Pigs: 0'
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
@@ -460,3 +461,14 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
+--- !u!114 &114794943732877640
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1754181333057642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f8e30adf8d35d042b9544cf656f256f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

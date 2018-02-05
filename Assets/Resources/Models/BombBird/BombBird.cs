@@ -14,6 +14,7 @@ public class BombBird : Actionable
 	public bool hasCollided = false;
 	private bool hasExploded = false;
 	private Vector3 explosionPosition;
+	
 
 	// Use this for initialization
 	void Start()
@@ -50,10 +51,17 @@ public class BombBird : Actionable
 
 	public void OnCollisionEnter(Collision collision)
 	{
-		if (!hasExploded)
+		Debug.Log("Bomb bird has collided with " + collision.collider.name);
+		if(collision.collider.name == "WoodPlankGraphics"  || collision.collider.name == "PigGraphics")
 		{
-			detonate();
+			Debug.Log("Bomb bird has met detonate conditions");
+			if (!hasExploded)
+			{
+				Debug.Log("bomb bird entering detonation");
+				detonate();
+			}
 		}
+		
 	}
 
 	public override IEnumerable HandleFloorCollision(Collision collision)

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: a3ca6ebf287870b489e98dc687662c01
-timeCreated: 1517780690
+timeCreated: 1517869760
 licenseType: Free
 MonoImporter:
   externalObjects: {}
@@ -12,6 +12,8 @@ MonoImporter:
       type: 2}
   - pigsTextObj: {fileID: 1880937640603004, guid: 3f6bdee20a7e24ea3b5177969ef6fe1a,
       type: 2}
+  - gameOverClip: {fileID: 8300000, guid: 6257e12af6208094d96f52aa5e4441c0, type: 3}
+  - levelWonClip: {fileID: 8300000, guid: 1a6c887fc89c05e44949a28b17e0b59a, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
