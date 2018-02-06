@@ -11,8 +11,8 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: DefaultCompany
-  productName: VRGroup2-Project1
+  companyName: VR Group 2
+  productName: Angry Birds VR
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -718,7 +718,7 @@ PlayerSettings:
   facebookSdkVersion: 7.9.4
   apiCompatibilityLevel: 2
   cloudProjectId: cd0bf233-7782-40ad-af93-ff62fc070c68
-  projectName: 
+  projectName: VRGroup2-Project1
   organizationId: bcanaday96
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
