@@ -56,8 +56,10 @@ public class GameStatus : MonoBehaviour {
 
 	private IEnumerator PlayAndResetLevel(AudioSource source) {
 		source.Play();
+		// Wait for sound to play
 		yield return new WaitForSeconds(source.clip.length);
 
+		// Reload current scene
 		string currentSceneName = SceneManager.GetActiveScene().name;
     	SceneManager.LoadScene(currentSceneName);
 
